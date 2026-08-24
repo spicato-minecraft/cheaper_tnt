@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "useful_tnt_test",
+	"version": "${version}",
+	"name": "Useful TNT Game Tests",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-gametest": [
+			"useful_tnt.gametest.ModLoadsGameTest",
+			"useful_tnt.gametest.ConfigEnabledCheaperRecipeGameTest",
+			"useful_tnt.gametest.ConfigDisabledVanillaRecipeGameTest",
+			"useful_tnt.gametest.NonTntRecipesUntouchedGameTest",
+			"useful_tnt.gametest.ItemEntitySurvivesTntGameTest",
+			"useful_tnt.gametest.CreeperExplosionDestroysItemsGameTest",
+			"useful_tnt.gametest.DropProtectionOffRestoresCullGameTest",
+			"useful_tnt.gametest.MobStillTakesTntDamageGameTest",
+			"useful_tnt.gametest.ChestBlockEntityExplosionVanillaGameTest"
+		]
+	},
+	"depends": {
+		"useful_tnt": "*",
+		"fabric-api": "*",
+		"minecraft": "~1.21.10"
+	}
+}
