@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "useful_tnt.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"ExampleClientMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

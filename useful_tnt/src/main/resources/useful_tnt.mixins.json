@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "useful_tnt.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"RecipeManagerMixin",
+		"ServerExplosionMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
