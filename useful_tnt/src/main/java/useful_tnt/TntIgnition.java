@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +48,7 @@ public final class TntIgnition {
 		if (prime(level, blockPos, player)) {
 			level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 11);
 			applyIgniterCost(itemStack, player, interactionHand);
-		} else if (level instanceof ServerLevel serverLevel && !serverLevel.getGameRules().getBoolean(GameRules.RULE_TNT_EXPLODES)) {
+		} else if (level instanceof ServerLevel serverLevel && !serverLevel.getGameRules().get(GameRules.TNT_EXPLODES)) {
 			player.displayClientMessage(Component.translatable("block.minecraft.tnt.disabled"), true);
 			return InteractionResult.PASS;
 		}

@@ -5,7 +5,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.entity.vehicle.minecart.MinecartTNT;
 
 /**
  * Item-entity cull skip for TNT-sourced explosions only.

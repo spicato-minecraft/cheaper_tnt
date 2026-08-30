@@ -1,7 +1,7 @@
 package useful_tnt;
 
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -19,7 +19,7 @@ import java.util.stream.StreamSupport;
 
 public final class UsefulTntRecipe {
 
-	private static final ResourceLocation TNT_RECIPE_ID = ResourceLocation.fromNamespaceAndPath("minecraft", "tnt");
+	private static final Identifier TNT_RECIPE_ID = Identifier.fromNamespaceAndPath("minecraft", "tnt");
 
 	private UsefulTntRecipe() {
 	}
@@ -29,7 +29,7 @@ public final class UsefulTntRecipe {
 	}
 
 	public static boolean isTntRecipe(RecipeHolder<?> holder) {
-		return holder.id().location().equals(TNT_RECIPE_ID);
+		return holder.id().identifier().equals(TNT_RECIPE_ID);
 	}
 
 	public static ShapedRecipe cheaperTntRecipe() {
