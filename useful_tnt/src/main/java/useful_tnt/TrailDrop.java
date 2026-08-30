@@ -66,7 +66,11 @@ public final class TrailDrop {
 		}
 
 		LAST_USE_GAME_TIME.put(player.getUUID(), now);
-		applyFuse(level, feet, UsefulTntConfig.getTrailDropFuseTicks());
+		PrimedTnt dropped = findNewestPrimedTnt(level, feet);
+		if (dropped != null) {
+			dropped.setFuse(UsefulTntConfig.getTrailDropFuseTicks());
+			dropped.setDeltaMovement(player.getRootVehicle().getDeltaMovement());
+		}
 		if (!isCreative(player)) {
 			TntIgnition.applyIgniterCost(offhand, player, InteractionHand.OFF_HAND);
 			main.shrink(1);
@@ -79,6 +83,13 @@ public final class TrailDrop {
 	}
 
 	public static void applyFuse(Level level, BlockPos pos, int fuseTicks) {
+		PrimedTnt newest = findNewestPrimedTnt(level, pos);
+		if (newest != null) {
+			newest.setFuse(fuseTicks);
+		}
+	}
+
+	static PrimedTnt findNewestPrimedTnt(Level level, BlockPos pos) {
 		AABB box = new AABB(pos).inflate(0.75);
 		PrimedTnt newest = null;
 		for (PrimedTnt tnt : level.getEntitiesOfClass(PrimedTnt.class, box)) {
@@ -86,9 +97,7 @@ public final class TrailDrop {
 				newest = tnt;
 			}
 		}
-		if (newest != null) {
-			newest.setFuse(fuseTicks);
-		}
+		return newest;
 	}
 
 	/** Test hook. */

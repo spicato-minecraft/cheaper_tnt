@@ -121,6 +121,20 @@ public class TrailDropAirUseGameTest {
 	}
 
 	@GameTest
+	public void inheritsPlayerMotionIncludingVertical(GameTestHelper context) {
+		TrailDrop.clearHoldTracking();
+		Player player = trailPlayer(context, GameType.SURVIVAL, new ItemStack(Items.TNT, 2), new ItemStack(Items.FLINT_AND_STEEL));
+		Vec3 motion = new Vec3(0.42, -0.18, 0.07);
+		player.setDeltaMovement(motion);
+
+		TrailDrop.tryUse(player, context.getLevel(), InteractionHand.MAIN_HAND);
+		List<PrimedTnt> spawned = context.getEntities(EntityType.TNT);
+		TntGameTestHelper.assertEqual(context, 1, spawned.size(), "one primed TNT");
+		TntGameTestHelper.assertEqual(context, motion, spawned.get(0).getDeltaMovement(), "TNT copies player/vehicle velocity (replaces vanilla hop)");
+		context.succeed();
+	}
+
+	@GameTest
 	public void spectatorDoesNothing(GameTestHelper context) {
 		TrailDrop.clearHoldTracking();
 		Player player = trailPlayer(context, GameType.SPECTATOR, new ItemStack(Items.TNT, 2), new ItemStack(Items.FLINT_AND_STEEL));
