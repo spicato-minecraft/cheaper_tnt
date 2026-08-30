@@ -1,6 +1,6 @@
 # Useful TNT
 
-A Minecraft Fabric mod that makes TNT cheaper to craft and keeps dropped items alive through TNT explosions.
+A Minecraft Fabric mod that makes TNT cheaper to craft, keeps dropped items alive through TNT explosions, and lets you drop a lit TNT at your feet while moving.
 
 This release is a rename of **cheaper_tnt**. Remove the old JAR. Existing `config/cheaper_tnt.json` is copied to `config/useful_tnt.json` on first load.
 
@@ -26,10 +26,20 @@ Config file: `config/useful_tnt.json` (migrates from `config/cheaper_tnt.json` i
 |--------|--------------|---------|
 | `cheaperTntEnabled` | Enable or disable the cheaper TNT recipe | `true` |
 | `dropProtectionEnabled` | TNT explosions do not destroy item entities (Primed TNT and TNT minecarts only) | `true` |
+| `trailDropEnabled` | Air-use trail-drop with TNT + offhand igniter | `true` |
+| `trailDropFuseTicks` | Fuse length for trail-dropped TNT (vanilla placed TNT is 80) | `100` |
 
-Changing the recipe toggle requires restarting the game or using `/reload`. Drop protection is read at explosion time.
+Changing the recipe toggle requires restarting the game or using `/reload`. Drop protection is read at explosion time. Trail-drop settings are read when you use the item (restart after editing them).
 
 Creeper, bed, respawn-anchor, and wither explosions still destroy items.
+
+## Trail-drop
+
+With **TNT in the main hand** and **flint and steel or a fire charge in the off hand**, right-click **empty air** (look at the sky, not a block or mob). A primed TNT appears at your feet with a 5-second fuse (100 ticks). Survival spends one TNT and uses the igniter as if you had lit a placed TNT block. Creative spends nothing. Adventure still works.
+
+Holding right-click does not dump a stack — one bomb per click. Right-clicking a block still **places** unlit TNT as vanilla. This is not a throw; the TNT does not spawn behind you or from swapped hands (igniter in the main hand).
+
+Trail-drop is read when you use the item. Changing `trailDropEnabled` or `trailDropFuseTicks` requires restarting the game.
 
 ## Compatibility
 

@@ -3,7 +3,7 @@
 	"id": "useful_tnt",
 	"version": "${version}",
 	"name": "useful_tnt",
-	"description": "Cheaper TNT recipe, plus TNT explosions no longer destroy dropped items.",
+	"description": "Cheaper TNT recipe, TNT explosions do not destroy dropped items, and air-use trail-drop with an offhand igniter.",
 	"authors": [
 		"Me!"
 	],
