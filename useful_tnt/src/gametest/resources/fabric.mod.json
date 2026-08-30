@@ -15,7 +15,8 @@
 			"useful_tnt.gametest.DropProtectionOffRestoresCullGameTest",
 			"useful_tnt.gametest.MobStillTakesTntDamageGameTest",
 			"useful_tnt.gametest.ChestBlockEntityExplosionVanillaGameTest",
-			"useful_tnt.gametest.PlacedTntIgniteStillVanillaGameTest"
+			"useful_tnt.gametest.PlacedTntIgniteStillVanillaGameTest",
+			"useful_tnt.gametest.TrailDropAirUseGameTest"
 		]
 	},
 	"depends": {
