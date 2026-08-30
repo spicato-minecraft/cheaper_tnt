@@ -35,7 +35,7 @@ Creeper, bed, respawn-anchor, and wither explosions still destroy items.
 
 ## Trail-drop
 
-With **TNT in the main hand** and **flint and steel or a fire charge in the off hand**, right-click **empty air** (look at the sky, not a block or mob). A primed TNT appears at your feet with a 5-second fuse (100 ticks). Survival spends one TNT and uses the igniter as if you had lit a placed TNT block. Creative spends nothing. Adventure still works.
+With **TNT in the main hand** and **flint and steel or a fire charge in the off hand**, right-click **empty air** (look at the sky, not a block or mob). A primed TNT appears at your feet with a 5-second fuse (100 ticks) and the same velocity as you (or the boat/horse/minecart you are riding), including vertical speed. Survival spends one TNT and uses the igniter as if you had lit a placed TNT block. Creative spends nothing. Adventure still works.
 
 Holding right-click does not dump a stack — one bomb per click. Right-clicking a block still **places** unlit TNT as vanilla. This is not a throw; the TNT does not spawn behind you or from swapped hands (igniter in the main hand).
 
