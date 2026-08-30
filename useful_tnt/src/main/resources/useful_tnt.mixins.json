@@ -4,7 +4,9 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"RecipeManagerMixin",
-		"ServerExplosionMixin"
+		"ServerExplosionMixin",
+		"TntBlockMixin",
+		"TntBlockPrimeInvoker"
 	],
 	"injectors": {
 		"defaultRequire": 1

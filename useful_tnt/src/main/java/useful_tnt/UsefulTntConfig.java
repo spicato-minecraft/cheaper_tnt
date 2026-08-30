@@ -12,9 +12,12 @@ public class UsefulTntConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	public static final String CONFIG_FILE = "useful_tnt.json";
 	public static final String LEGACY_CONFIG_FILE = "cheaper_tnt.json";
+	public static final int DEFAULT_TRAIL_DROP_FUSE_TICKS = 100;
 
 	private static boolean cheaperTntEnabled = true;
 	private static boolean dropProtectionEnabled = true;
+	private static boolean trailDropEnabled = true;
+	private static int trailDropFuseTicks = DEFAULT_TRAIL_DROP_FUSE_TICKS;
 
 	public static Path defaultConfigDir() {
 		return FabricLoader.getInstance().getConfigDir();
@@ -47,8 +50,7 @@ public class UsefulTntConfig {
 				UsefulTnt.LOGGER.info("Migrated config {} -> {}", legacy.getFileName(), current.getFileName());
 				return;
 			}
-			cheaperTntEnabled = true;
-			dropProtectionEnabled = true;
+			resetToDefaults();
 			saveTo(current);
 		} catch (IOException e) {
 			UsefulTnt.LOGGER.warn("Failed to load config, using defaults: {}", e.getMessage());
@@ -62,7 +64,7 @@ public class UsefulTntConfig {
 	public static void saveTo(Path configPath) {
 		try {
 			Files.createDirectories(configPath.getParent());
-			ConfigData data = new ConfigData(cheaperTntEnabled, dropProtectionEnabled);
+			ConfigData data = snapshot();
 			Files.writeString(configPath, GSON.toJson(data));
 		} catch (IOException e) {
 			UsefulTnt.LOGGER.error("Failed to save config: {}", e.getMessage());
@@ -72,10 +74,27 @@ public class UsefulTntConfig {
 	private static void applyFile(Path configPath) throws IOException {
 		String content = Files.readString(configPath);
 		ConfigData data = GSON.fromJson(content, ConfigData.class);
-		if (data != null) {
-			cheaperTntEnabled = data.cheaperTntEnabled;
-			dropProtectionEnabled = data.dropProtectionEnabled;
+		if (data == null) {
+			resetToDefaults();
+			return;
 		}
+		cheaperTntEnabled = data.cheaperTntEnabled != null ? data.cheaperTntEnabled : true;
+		dropProtectionEnabled = data.dropProtectionEnabled != null ? data.dropProtectionEnabled : true;
+		trailDropEnabled = data.trailDropEnabled != null ? data.trailDropEnabled : true;
+		trailDropFuseTicks = data.trailDropFuseTicks != null && data.trailDropFuseTicks > 0
+				? data.trailDropFuseTicks
+				: DEFAULT_TRAIL_DROP_FUSE_TICKS;
+	}
+
+	private static void resetToDefaults() {
+		cheaperTntEnabled = true;
+		dropProtectionEnabled = true;
+		trailDropEnabled = true;
+		trailDropFuseTicks = DEFAULT_TRAIL_DROP_FUSE_TICKS;
+	}
+
+	private static ConfigData snapshot() {
+		return new ConfigData(cheaperTntEnabled, dropProtectionEnabled, trailDropEnabled, trailDropFuseTicks);
 	}
 
 	public static boolean isEnabled() {
@@ -84,6 +103,14 @@ public class UsefulTntConfig {
 
 	public static boolean isDropProtectionEnabled() {
 		return dropProtectionEnabled;
+	}
+
+	public static boolean isTrailDropEnabled() {
+		return trailDropEnabled;
+	}
+
+	public static int getTrailDropFuseTicks() {
+		return trailDropFuseTicks;
 	}
 
 	/** Test hook. Does not persist. */
@@ -96,15 +123,29 @@ public class UsefulTntConfig {
 		cheaperTntEnabled = enabled;
 	}
 
+	/** Test hook. Does not persist. */
+	public static void setTrailDropEnabled(boolean enabled) {
+		trailDropEnabled = enabled;
+	}
+
+	/** Test hook. Does not persist. */
+	public static void setTrailDropFuseTicks(int ticks) {
+		trailDropFuseTicks = ticks;
+	}
+
 	private static class ConfigData {
-		boolean cheaperTntEnabled = true;
-		boolean dropProtectionEnabled = true;
+		Boolean cheaperTntEnabled;
+		Boolean dropProtectionEnabled;
+		Boolean trailDropEnabled;
+		Integer trailDropFuseTicks;
 
 		ConfigData() {}
 
-		ConfigData(boolean cheaperTntEnabled, boolean dropProtectionEnabled) {
+		ConfigData(boolean cheaperTntEnabled, boolean dropProtectionEnabled, boolean trailDropEnabled, int trailDropFuseTicks) {
 			this.cheaperTntEnabled = cheaperTntEnabled;
 			this.dropProtectionEnabled = dropProtectionEnabled;
+			this.trailDropEnabled = trailDropEnabled;
+			this.trailDropFuseTicks = trailDropFuseTicks;
 		}
 	}
 }

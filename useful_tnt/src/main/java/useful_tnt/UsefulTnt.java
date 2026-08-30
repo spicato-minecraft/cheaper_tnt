@@ -18,5 +18,6 @@ public class UsefulTnt implements ModInitializer {
 		UsefulTntConfig.load();
 		LOGGER.info("Cheaper TNT recipe is {}", UsefulTntConfig.isEnabled() ? "enabled" : "disabled");
 		LOGGER.info("TNT item drop protection is {}", UsefulTntConfig.isDropProtectionEnabled() ? "enabled" : "disabled");
+		LOGGER.info("TNT trail-drop is {} (fuse {} ticks)", UsefulTntConfig.isTrailDropEnabled() ? "enabled" : "disabled", UsefulTntConfig.getTrailDropFuseTicks());
 	}
 }
