@@ -60,7 +60,7 @@ final class TntGameTestHelper {
 	}
 
 	private static ItemStack assemble(GameTestHelper context, RecipeHolder<CraftingRecipe> holder, CraftingInput input) {
-		return holder.value().assemble(input, context.getLevel().registryAccess());
+		return holder.value().assemble(input);
 	}
 
 	static void assertThat(GameTestHelper context, boolean value, String message) {

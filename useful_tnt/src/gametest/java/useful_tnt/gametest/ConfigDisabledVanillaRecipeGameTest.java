@@ -28,7 +28,7 @@ public class ConfigDisabledVanillaRecipeGameTest {
 			CraftingInput vanillaGrid = TntGameTestHelper.vanillaTntGrid();
 			TntGameTestHelper.assertThat(context, recipe.matches(vanillaGrid, context.getLevel()), "Vanilla 5G+4S grid should still match when cheaper recipe is off");
 
-			ItemStack assembled = recipe.assemble(vanillaGrid, context.getLevel().registryAccess());
+			ItemStack assembled = recipe.assemble(vanillaGrid);
 			TntGameTestHelper.assertThat(context, assembled.is(Items.TNT), "Vanilla TNT recipe should still produce TNT when cheaper recipe is off");
 
 			TntGameTestHelper.assertNot(

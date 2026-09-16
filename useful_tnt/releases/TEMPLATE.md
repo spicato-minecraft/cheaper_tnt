@@ -17,13 +17,13 @@ Write for players, not developers. List **only what changed since the previous r
 ## Example (Minecraft version port, no behavior change)
 
 ```markdown
-- Minecraft 1.21.11 support
+- Minecraft 26.1 support
 ```
 
 ## Example (first Modrinth release)
 
 ```markdown
-- Initial release for Minecraft 1.21.11
+- Initial release for Minecraft 26.1
 ```
 
 ## Guidelines

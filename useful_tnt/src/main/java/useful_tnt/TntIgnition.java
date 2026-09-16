@@ -49,7 +49,7 @@ public final class TntIgnition {
 			level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 11);
 			applyIgniterCost(itemStack, player, interactionHand);
 		} else if (level instanceof ServerLevel serverLevel && !serverLevel.getGameRules().get(GameRules.TNT_EXPLODES)) {
-			player.displayClientMessage(Component.translatable("block.minecraft.tnt.disabled"), true);
+			player.sendOverlayMessage(Component.translatable("block.minecraft.tnt.disabled"));
 			return InteractionResult.PASS;
 		}
 		return InteractionResult.SUCCESS;

@@ -2,9 +2,10 @@ package useful_tnt;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -42,7 +43,7 @@ public final class UsefulTntRecipe {
 				"S S",
 				" G "
 		);
-		return new ShapedRecipe("", CraftingBookCategory.REDSTONE, pattern, new ItemStack(Items.TNT), true);
+		return shapedTnt(pattern);
 	}
 
 	public static ShapedRecipe vanillaTntRecipe() {
@@ -55,7 +56,16 @@ public final class UsefulTntRecipe {
 				"GSG",
 				"SSS"
 		);
-		return new ShapedRecipe("", CraftingBookCategory.REDSTONE, pattern, new ItemStack(Items.TNT), true);
+		return shapedTnt(pattern);
+	}
+
+	private static ShapedRecipe shapedTnt(ShapedRecipePattern pattern) {
+		return new ShapedRecipe(
+				new Recipe.CommonInfo(true),
+				new CraftingRecipe.CraftingBookInfo(CraftingBookCategory.REDSTONE, ""),
+				pattern,
+				new ItemStackTemplate(Items.TNT)
+		);
 	}
 
 	public static RecipeMap applyTo(RecipeMap original) {
