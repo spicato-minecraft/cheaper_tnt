@@ -43,7 +43,7 @@ Trail-drop is read when you use the item. Changing `trailDropEnabled` or `trailD
 
 ## Compatibility
 
-- **Minecraft:** 26.1
+- **Minecraft:** 26.2
 - **Fabric Loader:** ≥ 0.19.3
 - **Fabric API:** Required
 - **Java:** ≥ 25
@@ -58,15 +58,15 @@ The built JAR will be in `build/libs/`.
 
 ## Installation
 
-1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 26.1
+1. Install [Fabric Loader](https://fabricmc.net/use/) for Minecraft 26.2
 2. Install [Fabric API](https://modrinth.com/mod/fabric-api)
 3. Copy the built JAR from `build/libs/` to your Minecraft `mods` folder
 
 ## Branch Policy
 
-Each supported Minecraft version has its own long-lived branch named after the exact `minecraft_version` in `gradle.properties` (e.g. `26.1`). Version branches are the source of truth; `main` is not used.
+Each supported Minecraft version has its own long-lived branch named after the exact `minecraft_version` in `gradle.properties` (e.g. `26.2`). Version branches are the source of truth; `main` is not used.
 
-- **Default branch:** latest supported version (`26.1`)
+- **Default branch:** latest supported version (`26.2`)
 - **Feature/fix work:** branch from the target version as `{version}/feature-name`, merge back into the version branch
 - **New MC version:** create `{version}` from the prior version branch, bump `gradle.properties`, push to origin
 - **Retiring a version:** tag the final release, then archive the branch (do not delete)
@@ -74,7 +74,7 @@ Each supported Minecraft version has its own long-lived branch named after the e
 ```bash
 git clone https://github.com/spicato-spicato/cheaper_tnt.git
 cd cheaper_tnt
-git checkout 26.1
+git checkout 26.2
 ```
 
 The Gradle project lives in the `useful_tnt/` subdirectory. GitHub / Modrinth repo rename to `useful_tnt` is deferred to the 2.0.0 ship.
@@ -89,7 +89,7 @@ Release tags use `{minecraft_version}-{mod_version}` (e.g. `26.1-3.0.0`), matchi
 
 ### How to publish
 
-1. Merge your changes into the version branch (e.g. `26.1`).
+1. Merge your changes into the version branch (e.g. `26.2`).
 2. Bump `mod_version` in `gradle.properties` if shipping new player-facing changes.
 3. Add a changelog at `releases/{tag}.md` — user-facing bullets in plain language (see `releases/TEMPLATE.md`).
 4. Create a GitHub Release with tag `{minecraft_version}-{mod_version}` targeting the version branch.

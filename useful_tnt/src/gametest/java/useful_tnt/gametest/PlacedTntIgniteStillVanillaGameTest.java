@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,7 +23,7 @@ public class PlacedTntIgniteStillVanillaGameTest {
 		context.useBlock(tnt, player);
 
 		context.assertBlockNotPresent(Blocks.TNT, tnt);
-		context.assertEntityPresent(EntityType.TNT, tnt, 1.5);
+		context.assertEntityPresent(EntityTypes.TNT, tnt, 1.5);
 		TntGameTestHelper.assertEqual(context, 1, player.getItemInHand(InteractionHand.MAIN_HAND).getDamageValue(), "flint should take 1 durability");
 		context.succeed();
 	}
@@ -38,7 +38,7 @@ public class PlacedTntIgniteStillVanillaGameTest {
 		context.useBlock(tnt, player);
 
 		context.assertBlockNotPresent(Blocks.TNT, tnt);
-		context.assertEntityPresent(EntityType.TNT, tnt, 1.5);
+		context.assertEntityPresent(EntityTypes.TNT, tnt, 1.5);
 		TntGameTestHelper.assertEqual(context, 2, player.getItemInHand(InteractionHand.MAIN_HAND).getCount(), "one fire charge consumed");
 		context.succeed();
 	}

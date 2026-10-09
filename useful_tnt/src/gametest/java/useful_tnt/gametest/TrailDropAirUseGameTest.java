@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +50,7 @@ public class TrailDropAirUseGameTest {
 
 		TrailDrop.tryUse(player, context.getLevel(), InteractionHand.MAIN_HAND);
 		TrailDrop.tryUse(player, context.getLevel(), InteractionHand.MAIN_HAND);
-		List<PrimedTnt> spawned = context.getEntities(EntityType.TNT);
+		List<PrimedTnt> spawned = context.getEntities(EntityTypes.TNT);
 		TntGameTestHelper.assertEqual(context, 1, spawned.size(), "click-not-hold: one primed TNT");
 		TntGameTestHelper.assertEqual(context, 7, player.getMainHandItem().getCount(), "only one TNT consumed");
 		context.succeed();
@@ -66,7 +66,7 @@ public class TrailDropAirUseGameTest {
 		context.useBlock(stone, player);
 
 		context.assertBlockPresent(Blocks.TNT, stone.north());
-		TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityType.TNT).size(), "placing TNT must not trail-drop");
+		TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityTypes.TNT).size(), "placing TNT must not trail-drop");
 		context.succeed();
 	}
 
@@ -76,7 +76,7 @@ public class TrailDropAirUseGameTest {
 		Player player = trailPlayer(context, GameType.SURVIVAL, new ItemStack(Items.TNT, 2), new ItemStack(Items.STICK));
 
 		TntGameTestHelper.assertEqual(context, InteractionResult.PASS, TrailDrop.tryUse(player, context.getLevel(), InteractionHand.MAIN_HAND), "wrong offhand");
-		TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityType.TNT).size(), "no primed TNT");
+		TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityTypes.TNT).size(), "no primed TNT");
 		TntGameTestHelper.assertEqual(context, 2, player.getMainHandItem().getCount(), "TNT not consumed");
 		context.succeed();
 	}
@@ -112,7 +112,7 @@ public class TrailDropAirUseGameTest {
 			UsefulTntConfig.setTrailDropEnabled(false);
 			try {
 				TntGameTestHelper.assertEqual(context, InteractionResult.PASS, TrailDrop.tryUse(player, context.getLevel(), InteractionHand.MAIN_HAND), "config off");
-				TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityType.TNT).size(), "no primed TNT");
+				TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityTypes.TNT).size(), "no primed TNT");
 			} finally {
 				UsefulTntConfig.setTrailDropEnabled(previous);
 			}
@@ -128,7 +128,7 @@ public class TrailDropAirUseGameTest {
 		player.setDeltaMovement(motion);
 
 		TrailDrop.tryUse(player, context.getLevel(), InteractionHand.MAIN_HAND);
-		List<PrimedTnt> spawned = context.getEntities(EntityType.TNT);
+		List<PrimedTnt> spawned = context.getEntities(EntityTypes.TNT);
 		TntGameTestHelper.assertEqual(context, 1, spawned.size(), "one primed TNT");
 		TntGameTestHelper.assertEqual(context, motion, spawned.get(0).getDeltaMovement(), "TNT copies player/vehicle velocity (replaces vanilla hop)");
 		context.succeed();
@@ -140,7 +140,7 @@ public class TrailDropAirUseGameTest {
 		Player player = trailPlayer(context, GameType.SPECTATOR, new ItemStack(Items.TNT, 2), new ItemStack(Items.FLINT_AND_STEEL));
 
 		TntGameTestHelper.assertEqual(context, InteractionResult.PASS, TrailDrop.tryUse(player, context.getLevel(), InteractionHand.MAIN_HAND), "spectator");
-		TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityType.TNT).size(), "no primed TNT");
+		TntGameTestHelper.assertEqual(context, 0, context.getEntities(EntityTypes.TNT).size(), "no primed TNT");
 		context.succeed();
 	}
 
@@ -154,7 +154,7 @@ public class TrailDropAirUseGameTest {
 	}
 
 	private static void assertOnePrimedAtFeet(GameTestHelper context, Player player, int fuse) {
-		List<PrimedTnt> spawned = context.getEntities(EntityType.TNT);
+		List<PrimedTnt> spawned = context.getEntities(EntityTypes.TNT);
 		TntGameTestHelper.assertEqual(context, 1, spawned.size(), "one primed TNT");
 		PrimedTnt tnt = spawned.get(0);
 		TntGameTestHelper.assertEqual(context, fuse, tnt.getFuse(), "trail-drop fuse");

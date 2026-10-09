@@ -4,7 +4,7 @@ import useful_tnt.UsefulTntConfig;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.pig.Pig;
 
 public class MobStillTakesTntDamageGameTest {
@@ -14,7 +14,7 @@ public class MobStillTakesTntDamageGameTest {
 		TntGameTestHelper.assertThat(context, UsefulTntConfig.isDropProtectionEnabled(), "dropProtectionEnabled should be on");
 
 		BlockPos pigPos = new BlockPos(3, 1, 3);
-		Pig pig = (Pig) context.spawn(EntityType.PIG, pigPos);
+		Pig pig = (Pig) context.spawn(EntityTypes.PIG, pigPos);
 		float before = pig.getHealth();
 
 		TntGameTestHelper.detonatePrimedTnt(context, pigPos);
