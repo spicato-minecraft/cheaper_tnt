@@ -16,7 +16,14 @@
 			"useful_tnt.gametest.MobStillTakesTntDamageGameTest",
 			"useful_tnt.gametest.ChestBlockEntityExplosionVanillaGameTest",
 			"useful_tnt.gametest.PlacedTntIgniteStillVanillaGameTest",
-			"useful_tnt.gametest.TrailDropAirUseGameTest"
+			"useful_tnt.gametest.TrailDropAirUseGameTest",
+			"useful_tnt.gametest.ServerMixinApplySweepGameTest",
+			"useful_tnt.gametest.MinecartTntKeepsItemsGameTest",
+			"useful_tnt.gametest.NonTntExplosionCullsItemsGameTest",
+			"useful_tnt.gametest.CustomFuseTicksGameTest"
+		],
+		"fabric-client-gametest": [
+			"useful_tnt.clientgametest.ClientMixinApplySweepGameTest"
 		]
 	},
 	"depends": {
