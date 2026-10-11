@@ -1,6 +1,9 @@
 package useful_tnt;
 
+import net.minecraft.advancements.predicates.BlockPredicate;
+import net.minecraft.advancements.predicates.DataComponentMatchers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
@@ -8,14 +11,18 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AdventureModePredicate;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TntBlock;
 import org.jetbrains.annotations.Nullable;
-import useful_tnt.mixin.TntBlockPrimeInvoker;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Shared TNT prime + igniter cost. Vanilla {@code TntBlock.useItemOn} and trail-drop both call this
@@ -26,8 +33,14 @@ public final class TntIgnition {
 	private TntIgnition() {
 	}
 
+	/**
+	 * Spawns primed TNT owned by {@code owner}. Trail-drop does not break a block, but 26.3
+	 * {@link TntBlock#prime(Level, BlockPos, LivingEntity, ItemStack)} refuses adventure players
+	 * whose stack cannot break the block at {@code pos}. A throwaway can-break stack keeps that
+	 * vanilla spawn path without changing the player's items.
+	 */
 	public static boolean prime(Level level, BlockPos pos, @Nullable LivingEntity owner) {
-		return TntBlockPrimeInvoker.invokePrime(level, pos, owner);
+		return TntBlock.prime(level, pos, owner, stackAllowedToPrimeInAdventure());
 	}
 
 	/**
@@ -45,7 +58,7 @@ public final class TntIgnition {
 	}
 
 	public static InteractionResult useIgniterOnPlacedTnt(ItemStack itemStack, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand) {
-		if (prime(level, blockPos, player)) {
+		if (TntBlock.prime(level, blockPos, player, itemStack)) {
 			level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 11);
 			applyIgniterCost(itemStack, player, interactionHand);
 		} else if (level instanceof ServerLevel serverLevel && !serverLevel.getGameRules().get(GameRules.TNT_EXPLODES)) {
@@ -53,5 +66,19 @@ public final class TntIgnition {
 			return InteractionResult.PASS;
 		}
 		return InteractionResult.SUCCESS;
+	}
+
+	private static ItemStack stackAllowedToPrimeInAdventure() {
+		ItemStack stack = new ItemStack(Items.FLINT_AND_STEEL);
+		stack.set(
+				DataComponents.CAN_BREAK,
+				new AdventureModePredicate(List.of(new BlockPredicate(
+						Optional.empty(),
+						Optional.empty(),
+						Optional.empty(),
+						DataComponentMatchers.ANY
+				)))
+		);
+		return stack;
 	}
 }

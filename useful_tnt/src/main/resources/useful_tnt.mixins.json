@@ -5,8 +5,7 @@
 	"mixins": [
 		"RecipeManagerMixin",
 		"ServerExplosionMixin",
-		"TntBlockMixin",
-		"TntBlockPrimeInvoker"
+		"TntBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

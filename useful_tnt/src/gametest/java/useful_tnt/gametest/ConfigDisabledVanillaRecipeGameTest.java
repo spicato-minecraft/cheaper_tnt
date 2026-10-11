@@ -1,26 +1,31 @@
 package useful_tnt.gametest;
 
+import com.mojang.serialization.Lifecycle;
 import useful_tnt.UsefulTntRecipe;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.RegistrationInfo;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-
-import java.util.List;
 
 public class ConfigDisabledVanillaRecipeGameTest {
 
 	@GameTest(maxTicks = 100)
 	public void disabledKeepsVanillaTntRecipe(GameTestHelper context) {
-		RecipeHolder<?> vanillaHolder = new RecipeHolder<>(UsefulTntRecipe.tntRecipeKey(), UsefulTntRecipe.vanillaTntRecipe());
-		RecipeMap input = RecipeMap.create(List.of(vanillaHolder));
+		MappedRegistry<Recipe<?>> registry = new MappedRegistry<>(Registries.RECIPE, Lifecycle.stable());
+		registry.register(UsefulTntRecipe.tntRecipeKey(), UsefulTntRecipe.vanillaTntRecipe(), RegistrationInfo.BUILT_IN);
+		HolderLookup<Recipe<?>> input = registry.freeze();
 
 		TntGameTestHelper.withCheaperRecipe(false, () -> {
-			RecipeMap result = UsefulTntRecipe.applyTo(input);
+			RecipeMap result = RecipeMap.create(UsefulTntRecipe.applyTo(input));
 			RecipeHolder<?> kept = result.byKey(UsefulTntRecipe.tntRecipeKey());
 			TntGameTestHelper.assertThat(context, kept != null && kept.value() instanceof ShapedRecipe, "Disabled swap should keep a TNT shaped recipe");
 

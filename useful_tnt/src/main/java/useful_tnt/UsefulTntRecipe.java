@@ -1,5 +1,11 @@
 package useful_tnt;
 
+import com.mojang.serialization.Lifecycle;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.RegistrationInfo;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -9,14 +15,10 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.StreamSupport;
 
 public final class UsefulTntRecipe {
 
@@ -68,16 +70,25 @@ public final class UsefulTntRecipe {
 		);
 	}
 
-	public static RecipeMap applyTo(RecipeMap original) {
+	public static HolderLookup<Recipe<?>> applyTo(HolderLookup<Recipe<?>> original) {
 		if (!UsefulTntConfig.isEnabled()) {
 			return original;
 		}
 
-		List<RecipeHolder<?>> recipes = new ArrayList<>();
-		StreamSupport.stream(original.values().spliterator(), false)
-				.filter(holder -> !isTntRecipe(holder))
-				.forEach(recipes::add);
-		recipes.add(new RecipeHolder<>(tntRecipeKey(), cheaperTntRecipe()));
-		return RecipeMap.create(recipes);
+		MappedRegistry<Recipe<?>> registry = new MappedRegistry<>(Registries.RECIPE, Lifecycle.stable());
+		boolean sawTnt = false;
+		for (Holder.Reference<Recipe<?>> holder : original.listElements().toList()) {
+			ResourceKey<Recipe<?>> key = holder.key();
+			Recipe<?> recipe = holder.value();
+			if (key.equals(tntRecipeKey())) {
+				sawTnt = true;
+				recipe = cheaperTntRecipe();
+			}
+			registry.register(key, recipe, RegistrationInfo.BUILT_IN);
+		}
+		if (!sawTnt) {
+			registry.register(tntRecipeKey(), cheaperTntRecipe(), RegistrationInfo.BUILT_IN);
+		}
+		return registry.freeze();
 	}
 }
